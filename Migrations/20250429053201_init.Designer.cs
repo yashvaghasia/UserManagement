@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace UserManagement.Migrations
 {
     [DbContext(typeof(UserDbContext))]
-    [Migration("20250427120504_Initial1")]
-    partial class Initial1
+    [Migration("20250429053201_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -56,30 +56,22 @@ namespace UserManagement.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("Id");
 
                     b.ToTable("Roles");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 6,
-                            Name = "User"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Name = "Admin"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Name = "SuperAdmin"
-                        });
                 });
 
             modelBuilder.Entity("User", b =>
@@ -126,32 +118,15 @@ namespace UserManagement.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("Users");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CreatedAt = new DateTime(2024, 4, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            DateOfBirth = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "yash@example.com",
-                            FirstName = "yash",
-                            IsDeleted = false,
-                            LastName = "Admin",
-                            PasswordHash = "$2a$11$w8E.kjUdDHZc5YVfrXnVruvw3YVv4UxfOLy2evKz6tRaRbT5MkA3K",
-                            RoleId = 4,
-                            UpdatedAt = new DateTime(2024, 4, 1, 0, 0, 0, 0, DateTimeKind.Utc)
-                        });
                 });
 
             modelBuilder.Entity("User", b =>
                 {
-                    b.HasOne("Role", "Role")
+                    b.HasOne("Role", null)
                         .WithMany("Users")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Role");
                 });
 
             modelBuilder.Entity("Role", b =>

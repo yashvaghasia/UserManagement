@@ -50,8 +50,8 @@ namespace UserManagement.Services
             var role = new Role
             {
                 Name = roleDto.Name,
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
                 IsDeleted = true
             };
 
@@ -71,7 +71,7 @@ namespace UserManagement.Services
             }
 
             existingRole.Name = roleDto.Name;
-            existingRole.UpdatedAt = DateTime.UtcNow;
+            existingRole.UpdatedAt = DateTime.Now;
 
             await _roleRepository.UpdateRoleAsync(existingRole);
 

@@ -46,7 +46,7 @@ public class UserRepository : IUserRepository
             throw new Exception("User not found");
 
         // Check if the RoleId is valid
-        bool roleExists = _context.Roles.Any(r => r.id == updatedUserDto.RoleId);
+        bool roleExists = _context.Roles.Any(r => r.Id == updatedUserDto.RoleId);
         if (!roleExists)
             throw new Exception($"Role with ID {updatedUserDto.RoleId} does not exist");
         _mapper.Map(updatedUserDto, existingUser);
@@ -93,7 +93,7 @@ public class UserRepository : IUserRepository
 
     public Role GetRoleByRoleId(int Id)
     {
-        var Role = _context.Roles.FirstOrDefault(r=>r.id == Id);
+        var Role = _context.Roles.FirstOrDefault(r=>r.Id == Id);
         return Role;
     }
     

@@ -46,7 +46,7 @@ namespace UsersApi.Controllers
 
             return Ok(user);
         }
-
+       
         // Only Admin and SuperAdmin can register new users
         [RequiresPermission("ManageUsers")]
         [HttpPost("register")]
@@ -56,7 +56,7 @@ namespace UsersApi.Controllers
             if (existingUser != null)
                 return BadRequest("Email already exists");
 
-            model.CreatedAt = DateTime.UtcNow;
+            model.CreatedAt = DateTime.Now;
             _userRepository.CreateUser(model);
 
             return Ok(new ApiResponse<string>
