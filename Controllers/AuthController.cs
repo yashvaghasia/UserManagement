@@ -40,8 +40,11 @@ public class AuthController : ControllerBase
             }
 
 
-            var defaultRole = _userRepo.GetRoleByRoleId(6);
-
+            var defaultRole = _userRepo.GetRoleByRoleId(3);
+            if (defaultRole == null)
+            {
+                request.RoleId = defaultRole.Id;
+            }
             User user = new User
             {
                 FirstName = request.FirstName.Trim(),
@@ -50,11 +53,12 @@ public class AuthController : ControllerBase
                 PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.Password),
                 DateOfBirth = request.DateOfBirth,
                 RoleId = request.RoleId,
-                UpdatedAt = DateTime.UtcNow,
-                CreatedAt = DateTime.UtcNow
+                UpdatedAt = DateTime.Now,
+                CreatedAt = DateTime.Now
             };
 
             _userRepo.CreateUser(user);
+         
 
 
 

@@ -19,7 +19,7 @@ namespace UserManagement.Repositories
 
         public async Task<Role> GetRoleByIdAsync(int id)
         {
-            return await _context.Roles.FirstOrDefaultAsync(r => r.id == id && r.IsDeleted);
+            return await _context.Roles.FirstOrDefaultAsync(r => r.Id == id && r.IsDeleted);
         }
 
         public async Task<Role> CreateRoleAsync(Role role)
