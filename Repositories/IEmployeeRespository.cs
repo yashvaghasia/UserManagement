@@ -3,6 +3,10 @@
     Task<List<EmployeeResponseDto>> GetAllAsync();
     Task<EmployeeResponseDto> GetByIdAsync(int id);
     Task AddAsync(EmployeeDto dto);
-    Task UpdateAsync(int id, EmployeeDto dto);
-    Task DeleteAsync(int id);
+    Task<Employee> CreateAsync(Employee employee);
+    Task DeleteAsync(int id, EmployeeDto employeeDto);
+    Task<Employee> UpdateAsync(int id, Employee employee);
+
+
+
 }
