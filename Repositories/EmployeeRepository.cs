@@ -52,35 +52,45 @@ public class EmployeeRepository : IEmployeeRepository
         await _context.SaveChangesAsync();
     }
 
-    public async Task UpdateAsync(int id, EmployeeDto dto)
-    {
-        var employee = await _context.Employees
-            .Include(e => e.EmployeeSkills)
-            .Include(e => e.EmployeeHobbies)
-            .FirstOrDefaultAsync(e => e.Id == id);
+    
 
-        if (employee == null) return;
-
-        employee.FirstName = dto.FirstName;
-        employee.LastName = dto.LastName;
-        employee.Address = dto.Address;
-        employee.BirthDate = dto.BirthDate;
-        employee.JoiningDate = dto.JoiningDate;
-        employee.Gender = dto.Gender;
-        employee.RoleId = dto.RoleId;
-
-        employee.EmployeeSkills = dto.SkillIds.Select(id => new EmployeeSkill { EmployeeId = id, SkillId = id }).ToList();
-        employee.EmployeeHobbies = dto.HobbyIds.Select(id => new EmployeeHobby { EmployeeId = id, HobbyId = id }).ToList();
-
-        _context.Employees.Update(employee);
-        await _context.SaveChangesAsync();
-    }
-
-    public async Task DeleteAsync(int id)
+    public async Task DeleteAsync(int id , EmployeeDto employeeDto)
     {
         var employee = await _context.Employees.FindAsync(id);
         if (employee == null) return;
         _context.Employees.Remove(employee);
         await _context.SaveChangesAsync();
+    }
+    public async Task<Employee> CreateAsync(Employee employee)
+    {
+        _context.Employees.Add(employee);
+        await _context.SaveChangesAsync();
+        return employee;
+    }
+
+    public async Task<Employee> UpdateAsync(int id, Employee employee)
+    {
+        var existing = await _context.Employees
+            .Include(e => e.EmployeeSkills)
+            .Include(e => e.EmployeeHobbies)
+            .FirstOrDefaultAsync(e => e.Id == id);
+
+        if (existing == null)
+            return null;
+
+        existing.FirstName = employee.FirstName;
+        existing.LastName = employee.LastName;
+        existing.Address = employee.Address;
+        existing.BirthDate = employee.BirthDate;
+        existing.JoiningDate = employee.JoiningDate;
+        existing.Gender = employee.Gender;
+        existing.RoleId = employee.RoleId;
+
+        // Update Skills & Hobbies
+        existing.EmployeeSkills = employee.EmployeeSkills;
+        existing.EmployeeHobbies = employee.EmployeeHobbies;
+
+        await _context.SaveChangesAsync();
+        return existing;
     }
 }

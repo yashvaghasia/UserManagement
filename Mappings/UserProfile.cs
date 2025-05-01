@@ -27,6 +27,17 @@ public class UserProfile : Profile
         CreateMap<Role, RoleDto>().ReverseMap();
         CreateMap<CreateRoleDto, Role>();
         CreateMap<UpdateRoleDto, Role>();
+        CreateMap<Skill, SkillDto>().ReverseMap();
+        CreateMap<Hobby, HobbyDto>().ReverseMap();
+        
+        
+            CreateMap<Employee, EmployeeDto>()
+                .ForMember(dest => dest.SkillIds, opt => opt.MapFrom(src => src.EmployeeSkills.Select(es => es.SkillId)))
+                .ForMember(dest => dest.HobbyIds, opt => opt.MapFrom(src => src.EmployeeHobbies.Select(eh => eh.HobbyId)))
+                .ReverseMap()
+                .ForMember(dest => dest.EmployeeSkills, opt => opt.MapFrom(src => src.SkillIds.Select(id => new EmployeeSkill { SkillId = id })))
+                .ForMember(dest => dest.EmployeeHobbies, opt => opt.MapFrom(src => src.HobbyIds.Select(id => new EmployeeHobby { HobbyId = id })));
+        
 
     }
 }
