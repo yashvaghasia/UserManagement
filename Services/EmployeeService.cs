@@ -40,8 +40,8 @@ public class EmployeeService : IEmployeeService
         if (employee == null)
             return new ApiResponse<EmployeeDto>(false, "Employee not found", employeeDto);
 
-        _mapper.Map(employeeDto, employee);
-        _employeeRepository.UpdateAsync(employee);
+        _ = _mapper.Map(employee, EmployeeDto);
+       await _employeeRepository.UpdateAsync(id,employee);
         return new ApiResponse<EmployeeDto>(true, "Updated successfully", _mapper.Map<EmployeeDto>(employee));
     }
 
@@ -51,7 +51,7 @@ public class EmployeeService : IEmployeeService
         if (Employee == null)
             return new ApiResponse<EmployeeDto>(false, "Employee not found", employeeDto);
 
-        await _employeeRepository.DeleteAsync(employee);
+        await _employeeRepository.DeleteAsync(Employee);
         return new ApiResponse<EmployeeDto>(true, "Deleted successfully", employeeDto);
     }
 }

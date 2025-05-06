@@ -37,16 +37,16 @@ public class EmployeeController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> Update(int id, EmployeeDto dto)
+    public async Task<IActionResult> Update(int id, Employee employee)
     {
-        await _repo.UpdateAsync(id, dto);
+        await _repo.UpdateAsync(id,employee);
         return Ok(new ApiResponse<string>(true, "Employee updated successfully", null));
     }
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete(int id)
+    public async Task<IActionResult> Delete(int id,EmployeeDto employeeDto )
     {
-        await _repo.DeleteAsync(id);
+        await _repo.DeleteAsync(id, employeeDto);
         return Ok(new ApiResponse<string>(true, "Employee deleted successfully", null));
     }
 }

@@ -7,7 +7,7 @@ namespace UserManagement.Models.Response
         public string Message { get; set; }
         public T Data { get; set; }
 
-        public ApiResponse()
+        public ApiResponse(bool v)
         {
         }
 

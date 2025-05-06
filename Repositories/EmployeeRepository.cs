@@ -1,5 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.EntityFrameworkCore;
 using UserManagement.Repositories;
+
+
+
 public class EmployeeRepository : IEmployeeRepository
 {
     private readonly UserDbContext _context;
@@ -52,12 +56,13 @@ public class EmployeeRepository : IEmployeeRepository
         await _context.SaveChangesAsync();
     }
 
-    
 
-    public async Task DeleteAsync(int id , EmployeeDto employeeDto)
+
+    async Task<EmployeeDto> IEmployeeRepository.DeleteAsync(int id, EmployeeDto employeeDto)
     {
         var employee = await _context.Employees.FindAsync(id);
-        if (employee == null) return;
+        
+       
         _context.Employees.Remove(employee);
         await _context.SaveChangesAsync();
     }
