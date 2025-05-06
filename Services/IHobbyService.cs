@@ -7,5 +7,5 @@ public interface IHobbyService
     Task<ApiResponse<HobbyDto>> GetHobbyByIdAsync(int id);
     Task<ApiResponse<HobbyDto>> CreateHobbyAsync(HobbyDto hobbyDto);
     Task<ApiResponse<HobbyDto>> UpdateHobbyAsync(int id, HobbyDto hobbyDto);
-    Task<ApiResponse<string>> DeleteHobbyAsync(int id);
+    Task<ApiResponse<HobbyDto>> DeleteHobbyAsync(int id );
 }

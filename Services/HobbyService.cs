@@ -45,16 +45,19 @@ public class HobbyService : IHobbyService
         return new ApiResponse<HobbyDto>(true, "Updated successfully", _mapper.Map<HobbyDto>(hobby));
     }
 
-    public async Task<ApiResponse<string>> DeleteHobbyAsync(int id)
+    public async Task<ApiResponse<HobbyDto>> DeleteHobbyAsync(int id)
     {
         var hobby = await _hobbyRepository.GetByIdAsync(id);
         if (hobby == null)
-            return new ApiResponse<string>(false, "Hobby not found");
+        {
+            return new ApiResponse<HobbyDto>(false, "Hobby not found", null);
+        }
 
-        await _hobbyRepository.DeleteAsync(hobby);
-        
-        return new ApiResponse<string>(true, "Deleted successfully", null);
+        await _hobbyRepository.DeleteAsync(id);
+
+        return new ApiResponse<HobbyDto>(true, "Deleted successfully", null);
     }
+
 
     public Task<ApiResponse<HobbyDto>> GetHobbyByIdAsync(int id)
     {
